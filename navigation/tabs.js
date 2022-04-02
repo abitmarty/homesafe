@@ -28,11 +28,11 @@ function MyTabs() {
                 let rn = route.name;
 
                 if(rn === dashboardName) {
-                    iconName = 'stats-chart-outline';
+                    iconName = 'stats-chart';
                 } else if (rn === friendsName) {
-                    iconName = 'person-outline';
+                    iconName = 'person';
                 } else {
-                    iconName = 'calendar-outline';
+                    iconName = 'calendar';
                 }
 
                 return <Ionicons name={iconName} size={size} color={color} />
@@ -41,10 +41,15 @@ function MyTabs() {
             },
             tabBarStyle:{
                 height:60,
+                backgroundColor: '#000000'
+            },
+            tabBarItemStyle:{
+                activeTintColor: '#5DB075'
             }
         })}
         tabBarOptions={{
             activeTintColor: '#5DB075',
+            inactiveTintColor: '#ffffff',
             labelStyle: { paddingBottom: 10, fontSize: 10, outerHeight: 100},
         }}
         >
