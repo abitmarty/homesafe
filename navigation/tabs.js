@@ -11,6 +11,8 @@ import LoginScreen from '../screens/additional/LoginScreen';
 import Activities from '../screens/activities';
 import Dashboard from '../screens/dashboard'
 import Friends from '../screens/friends'
+import AddFriend from '../screens/additional/addFriend';
+
 
 const Tab = createBottomTabNavigator();
 
@@ -18,6 +20,7 @@ const dashboardName = "Dashboard";
 const activitesName = "Activities";
 const friendsName = "Friends";
 const loginName = "Login";
+const addFriendName = "AddFriend"
 
 function MyTabs() {
     const [isSignedIn, setSignedIn] = useState()
@@ -72,6 +75,12 @@ function MyTabs() {
                    <Tab.Screen name={activitesName} component={Activities} />
                    <Tab.Screen name={dashboardName} component={Dashboard} />
                    <Tab.Screen name={friendsName} component={Friends} />
+                   <Tab.Screen name={addFriendName} component={AddFriend} 
+                   options={{
+                    tabBarButton: () => null,
+                    tabBarVisible:false //hide tab bar on this screen
+            
+                    }}/>
                  </>
              ) : (
                <>
