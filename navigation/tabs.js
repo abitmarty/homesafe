@@ -3,10 +3,11 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons'
+import { useState, useEffect } from 'react';
+import { auth } from '../firebase';
 
 
-
-
+import LoginScreen from '../screens/additional/LoginScreen';
 import Activities from '../screens/activities';
 import Dashboard from '../screens/dashboard'
 import Friends from '../screens/friends'
@@ -18,6 +19,15 @@ const activitesName = "Activities";
 const friendsName = "Friends";
 
 function MyTabs() {
+    const [isSignedIn, setSignedIn] = useState()
+
+    React.useEffect(() => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+           setSignedIn(user ? true : false)
+      });
+      return unsubscribe;
+    }, [])
+
   return (
     <NavigationContainer>
         <Tab.Navigator
@@ -53,10 +63,19 @@ function MyTabs() {
             labelStyle: { paddingBottom: 10, fontSize: 10, outerHeight: 100},
         }}
         >
-            
-        <Tab.Screen name={activitesName} component={Activities} />
-        <Tab.Screen name={dashboardName} component={Dashboard} />
-        <Tab.Screen name={friendsName} component={Friends} />
+        {
+             isSignedIn ? (
+                 <>
+                   <Tab.Screen name={activitesName} component={Activities} />
+                   <Tab.Screen name={dashboardName} component={Dashboard} />
+                   <Tab.Screen name={friendsName} component={Friends} />
+                 </>
+             ) : (
+               <>
+                <Tab.Screen name={"Login"} component={LoginScreen} />
+               </>
+             )
+        } 
         </Tab.Navigator>
     </NavigationContainer>
 

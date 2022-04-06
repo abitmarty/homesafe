@@ -2,10 +2,25 @@
 import React, {useEffect, useState} from 'react'
 import { View, Text } from 'react-native';
 import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
+import { auth } from '../../firebase';
 
-function LoginScreen ({navigation}){
+function LoginScreen (){
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const handleSignUp = () => {
+        auth. createUserWithEmailAndPassword(email, password).then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Regestered using: ', user.email);
+        }).catch(error => alert(error.message));
+    }
+
+    const handleLogin = () => {
+        auth.signInWithEmailAndPassword(email, password).then(userCredentials => {
+            const user = userCredentials.user;
+            console.log('Logged in using: ', user.email);
+        }).catch(error => alert(error.message));
+    }
 
     return(
         <KeyboardAvoidingView
@@ -15,14 +30,14 @@ function LoginScreen ({navigation}){
             <View style={styles.inputContainer}>
                 <TextInput
                 placeholder="Email"
-                // value={}
-                // onChangeTExt={text =>}
+                value={email}
+                onChangeText={text => setEmail(text)}
                 style={styles.input}
                 />
                 <TextInput
                 placeholder="Password"
-                // value={}
-                // onChangeTExt={text =>}
+                value={password}
+                onChangeText={text => setPassword(text)}
                 style={styles.input}
                 secureTextEntry
                 />
@@ -30,13 +45,13 @@ function LoginScreen ({navigation}){
 
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => handleLogin()}
                 style={styles.button}
                 >
                     <Text style={styles.buttonText}>Login</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={() => {}}
+                onPress={() => handleSignUp()}
                 style={[styles.button, styles.buttonOutline]}
                 >
                     <Text style={styles.buttonOutlineText}>Register</Text>
