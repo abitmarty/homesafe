@@ -17,6 +17,7 @@ const Tab = createBottomTabNavigator();
 const dashboardName = "Dashboard";
 const activitesName = "Activities";
 const friendsName = "Friends";
+const loginName = "Login";
 
 function MyTabs() {
     const [isSignedIn, setSignedIn] = useState()
@@ -41,8 +42,10 @@ function MyTabs() {
                     iconName = 'stats-chart';
                 } else if (rn === friendsName) {
                     iconName = 'person';
-                } else {
+                } else if (rn === activitesName){
                     iconName = 'calendar';
+                } else {
+                    iconName = 'log-in';
                 }
 
                 return <Ionicons name={iconName} size={size} color={color} />
