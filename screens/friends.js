@@ -1,26 +1,81 @@
-import * as React from 'react';
-import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, View, Text } from 'react-native';
+import React, {useEffect, useState, Component} from 'react'
+import { KeyboardAvoidingView, StyleSheet, TextInput, TouchableOpacity, View, Text, Image } from 'react-native';
 import AddFriend from './additional/addFriend';
+import { auth } from '../firebase';
+import firestore from "@react-native-firebase/firestore";
+import firebase from 'firebase/compat/app';
 
-function Friends ({navigation}){
+class Friends extends Component{
+    constructor(props){
+        console.log('---------------------');
+        console.log('Loaded friends page');
+        super(props);
+
+        this.state = {
+            friends: [],
+            otherFriends: []
+        };
+        // this.getAllFriends();
+        this.subscriber = firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).where('accepted', '==', true).onSnapshot(docs =>{
+            let friends = [];
+            docs.forEach(doc => {
+                friends.push(doc.data())
+            })
+            this.setState({ friends });
+            console.log(friends);
+        });
+
+        this.subscriber2 = firebase.firestore().collection('friends').where('requested', '==', firebase.auth().currentUser.email).where('accepted', '==', true).onSnapshot(docs2 =>{
+            let otherFriends = [];
+            docs2.forEach(doc2 => {
+                otherFriends.push({target: doc2.data().requested, requested: doc2.data().target, accepted: doc2.data().accepted})
+            })
+            this.setState({ otherFriends });
+        });
         
-    return(
-        <View style={styles.container}>
-            <View style={styles.buttonContainer}>
-                <TouchableOpacity
-                onPress={() => {
-                    navigation.navigate('AddFriend');
-                }}
-                style={styles.button}
-                >
-                    <Text style={styles.buttonText}>Add friends</Text>
-                </TouchableOpacity>
+    }
+    
+    render(){
+        return(
+            <View style={styles.container}>
+                <View style={styles.buttonContainer}>
+                    <TouchableOpacity
+                    onPress={() => {
+                        this.props.navigation.navigate('AddFriend');
+                    }}
+                    style={styles.button}
+                    >
+                        <Text style={styles.buttonText}>Add friends</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.friendContainer}>
+                    <Text style={styles.title}>Friend list:</Text>
+                    {this.state.friends.map(friend =>
+                    <View style={styles.friendListedElementContainer}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={require('../assets/Friends.png')}
+                        />
+                        <View syle={styles.friendInformationBox}>
+                            <Text style={styles.friendName}>{friend.requested}</Text>
+                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
+                        </View>
+                    </View>)}
+                    {this.state.otherFriends.map(friend =>
+                    <View style={styles.friendListedElementContainer}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={require('../assets/Friends.png')}
+                        />
+                        <View syle={styles.friendInformationBox}>
+                            <Text style={styles.friendName}>{friend.requested}</Text>
+                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
+                        </View>
+                    </View>)}
+                </View>
             </View>
-            <View style={styles.friendContainer}>
-                <Text style={styles.title}>Friend list:</Text>
-            </View>
-        </View>
-    );
+        );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -56,6 +111,22 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '700',
         textAlign: 'left'
+    },
+    tinyLogo: {
+        width: 50,
+        height: 50
+    },
+    friendListedElementContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        marginTop: 30
+    }, 
+    friendName: {
+        fontWeight: '700',
+        marginLeft: 10
+    },
+    friendInfo: {
+        marginLeft: 10
     }
 });
 

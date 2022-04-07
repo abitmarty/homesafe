@@ -9,8 +9,6 @@ import firebase from 'firebase/compat/app';
 
 class AddFriend extends Component{
     constructor(props){
-        console.log('---------------------');
-        console.log('Loaded add friends page');
         super(props);
         this.state = {
             email: "",
@@ -23,7 +21,7 @@ class AddFriend extends Component{
                 friendRequests.push(doc.data())
             })
             this.setState({ friendRequests });
-            console.log(friendRequests);
+            // console.log(friendRequests);
         });
     }
 
