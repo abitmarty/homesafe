@@ -14,6 +14,7 @@ import Friends from '../screens/friends'
 import AddFriend from '../screens/additional/addFriend';
 import PersonalFriendpage from '../screens/additional/personalFriendPage';
 import CreateEvent from '../screens/additional/createEvent';
+import Activity from '../screens/additional/activity';
 
 const Tab = createBottomTabNavigator();
 
@@ -21,9 +22,10 @@ const dashboardName = "Dashboard";
 const activitesName = "Activities";
 const friendsName = "Friends";
 const loginName = "Login";
-const addFriendName = "AddFriend"
-const personalFriendName = "Personal"
-const createEventName = "EventCreation"
+const addFriendName = "AddFriend";
+const personalFriendName = "Personal";
+const createEventName = "EventCreation";
+const activityName = "Activity";
 
 function MyTabs() {
     const [isSignedIn, setSignedIn] = useState()
@@ -91,6 +93,12 @@ function MyTabs() {
             
                     }}/>
                     <Tab.Screen name={createEventName} component={CreateEvent} 
+                   options={{
+                    tabBarButton: () => null,
+                    tabBarVisible:false //hide tab bar on this screen
+            
+                    }}/>
+                    <Tab.Screen name={activityName} component={Activity} 
                    options={{
                     tabBarButton: () => null,
                     tabBarVisible:false //hide tab bar on this screen

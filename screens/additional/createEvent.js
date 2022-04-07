@@ -21,6 +21,13 @@ class CreateEvent extends Component{
     }
 
     render() {
+        // this.state = {
+        //     eventName: "",
+        //     discription: "",
+        //     zip: "",
+        //     houseNr: "",
+        //     date: ""
+        // };
     return(
         <KeyboardAvoidingView
         style={styles.container}

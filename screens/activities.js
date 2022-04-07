@@ -13,15 +13,18 @@ class Activities extends Component{
 
         this.state = {
             events: [],
+            event: {}
         };
 
         this.subscriber = firebase.firestore().collection('events').onSnapshot(docs =>{
             let events = [];
             docs.forEach(doc => {
-                if((doc.data().attendees).includes(firebase.auth().currentUser.email)){
-                    events.push(doc.data())
-                }
-                this.setState({ events });
+                try{ 
+                    if((doc.data().attendees).includes(firebase.auth().currentUser.email)){
+                        events.push([doc.data(), doc.id]);
+                    }
+                    this.setState({ events });
+                } catch(e) { console.error(e); }
             })
         });   
     }
@@ -53,7 +56,26 @@ class Activities extends Component{
                     {this.state.events.map(event =>
                     <TouchableOpacity style={styles.eventElementContainer}
                     onPress={() => {
-                        
+                        firebase.firestore().collection("events").doc(event[1]).onSnapshot(doc =>{
+                            try{ 
+                                this.setState({
+                                    event:{
+                                        attendees: doc.data().attendees,
+                                        creator: doc.data().creator,
+                                        date: doc.data().date,
+                                        discription: doc.data().discription,
+                                        housenr: doc.data().housenr,
+                                        name: doc.data().name,
+                                        zip: doc.data().zip,
+                                    }
+                                })
+                            } catch(e) { console.error(e); }
+                        });
+
+                        this.props.navigation.navigate('Activity', {
+                            id: event[1],
+                            event: event
+                        });
                     }}>
                         <View style={styles.topTitleEvent}>
                             <Image
@@ -61,10 +83,10 @@ class Activities extends Component{
                                 source={require('../assets/roundness.png')}
                             />
                             
-                            <Text style={styles.eventName}>{event.name}</Text>
+                            <Text style={styles.eventName}>{event[0].name}</Text>
                         </View>
                         <View syle={styles.friendInformationBox}>
-                            <Text style={styles.eventInfo}>{event.discription}</Text>
+                            <Text style={styles.eventInfo}>{event[0].discription}</Text>
                         </View>
                     </TouchableOpacity>)}
                 </View>
