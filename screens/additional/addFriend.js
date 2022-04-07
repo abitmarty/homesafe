@@ -6,19 +6,34 @@ import { auth } from '../../firebase';
 import firestore from "@react-native-firebase/firestore";
 import firebase from 'firebase/compat/app';
 
+
 class AddFriend extends Component{
     constructor(props){
+        console.log('---------------------');
+        console.log('Loaded add friends page');
         super(props);
         this.state = {
             email: "",
-          };
+            friends: {
+                name:""
+            }
+        };
+        this.getFriends();
+        this.subscriber = firebase.firestore().collection('friends').doc('k9IoVfKM2gUbeblW6Zsi').onSnapshot(doc=>{
+            this.setState({
+                friends:{
+                    name: doc.data().requested
+                }
+            })
+        });
     }
 
-
-
-    // getUser = async() => {
-    //     const friendsDocument = await firestore().collection("friends").doc("k9IoVfKM2gUbeblW6Zsi").get();
-    // }
+    getFriends = async () => {
+        console.log('Calling firestore')
+        const friendsDocument = await firebase.firestore().collection('friends').doc('k9IoVfKM2gUbeblW6Zsi').get();
+        console.log(friendsDocument);
+        console.log('Done calling firestore')
+    }
 
     render() {
     return(
@@ -38,12 +53,15 @@ class AddFriend extends Component{
             <View style={styles.buttonContainer}>
                 <TouchableOpacity
                 onPress={() => {
-                    alert(this.state.email);
+                    console.log("Email: ", this.state.email);
                 }}
                 style={styles.button}
                 >
                     <Text style={styles.buttonText}>Add</Text>
                 </TouchableOpacity>
+            </View>
+            <View style={styles.inputContainer}>
+                <Text>{this.state.friends.name}</Text>
             </View>
         </View>
     );
