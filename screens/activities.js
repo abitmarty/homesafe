@@ -23,8 +23,7 @@ class Activities extends Component{
                 }
                 this.setState({ events });
             })
-        });
-                
+        });   
     }
     
     render(){
@@ -33,13 +32,12 @@ class Activities extends Component{
                 <View style={styles.buttonContainer}>
                     <TouchableOpacity
                     onPress={() => {
-                        this.props.navigation.navigate('AddFriend');
+                        this.props.navigation.navigate('EventCreation');
                     }}
                     style={styles.button}
                     >
                         <Text style={styles.buttonText}>Create</Text>
                     </TouchableOpacity>
-                    <Text>      </Text>
                     <TouchableOpacity
                     onPress={() => {
                         this.props.navigation.navigate('AddFriend');
@@ -70,6 +68,7 @@ class Activities extends Component{
                         </View>
                     </TouchableOpacity>)}
                 </View>
+
             </View>
         );
     }
@@ -87,6 +86,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
         flexDirection: 'row',
+        justifyContent: 'space-around'
     },
     button:{
         backgroundColor: '#5DB075',

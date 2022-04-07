@@ -7,8 +7,6 @@ import firebase from 'firebase/compat/app';
 
 class Friends extends Component{
     constructor(props){
-        console.log('---------------------');
-        console.log('Loaded friends page');
         super(props);
 
         this.state = {
