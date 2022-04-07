@@ -87,18 +87,6 @@ class Friends extends Component{
                             <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
                         </View>
                     </TouchableOpacity>)}
-
-                    {/* {this.state.otherFriends.map(friend =>
-                    <View style={styles.friendListedElementContainer}>
-                        <Image
-                            style={styles.tinyLogo}
-                            source={require('../assets/Friends.png')}
-                        />
-                        <View syle={styles.friendInformationBox}>
-                            <Text style={styles.friendName}>{friend.requested}</Text>
-                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
-                        </View>
-                    </View>)} */}
                 </View>
             </View>
         );
@@ -126,7 +114,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: '#fff',
-        fontSize: 16
+        fontSize: 16,
+        fontWeight: '700'
     },
     friendContainer: {
         marginTop: 40,
@@ -150,10 +139,13 @@ const styles = StyleSheet.create({
     }, 
     friendName: {
         fontWeight: '700',
-        marginLeft: 10
+        marginLeft: 10,
+        fontSize: 16
     },
     friendInfo: {
-        marginLeft: 10
+        marginLeft: 10,
+        marginTop: 5,
+        fontSize: 14
     }
 });
 

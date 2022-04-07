@@ -124,6 +124,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         fontWeight: '700'
     },
+    buttonText: {
+        fontWeight: '700'
+    }
 });
 
 export default PersonalFriendpage;
