@@ -55,6 +55,23 @@ class Friends extends Component{
                 <View style={styles.friendContainer}>
                     <Text style={styles.title}>Friend list:</Text>
                     {this.state.friends.map(friend =>
+                    <TouchableOpacity style={styles.friendListedElementContainer}
+                    onPress={() => {
+                        console.log(friend.requested)
+                        this.props.navigation.navigate('Personal', {
+                            user: friend.requested
+                        });
+                    }}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={require('../assets/Friends.png')}
+                        />
+                        <View syle={styles.friendInformationBox}>
+                            <Text style={styles.friendName}>{friend.requested}</Text>
+                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
+                        </View>
+                    </TouchableOpacity>)}
+                    {/* {this.state.otherFriends.map(friend =>
                     <View style={styles.friendListedElementContainer}>
                         <Image
                             style={styles.tinyLogo}
@@ -64,18 +81,7 @@ class Friends extends Component{
                             <Text style={styles.friendName}>{friend.requested}</Text>
                             <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
                         </View>
-                    </View>)}
-                    {this.state.otherFriends.map(friend =>
-                    <View style={styles.friendListedElementContainer}>
-                        <Image
-                            style={styles.tinyLogo}
-                            source={require('../assets/Friends.png')}
-                        />
-                        <View syle={styles.friendInformationBox}>
-                            <Text style={styles.friendName}>{friend.requested}</Text>
-                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
-                        </View>
-                    </View>)}
+                    </View>)} */}
                 </View>
             </View>
         );
