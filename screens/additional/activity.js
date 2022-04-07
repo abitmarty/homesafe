@@ -49,17 +49,12 @@ class Activity extends Component{
                             // doc.data().attendees.arrayRemove(firebase.auth().currentUser.email)
                             doc.ref.delete();
                         });
-                        // firebase.firestore().collection('events').where('requested', '==', firebase.auth().currentUser.email).where('target', '==', this.params.user).onSnapshot(docs =>{
-                        //     docs.forEach(doc => {
-                        //         doc.ref.delete()
-                        //     })
-                        // });
 
                         this.props.navigation.navigate('Activities');
                     }}
                     style={styles.button}
                     >
-                        <Text style={styles.buttonText}>Leave event</Text>
+                        <Text style={styles.buttonText}>Delete event</Text>
                     </TouchableOpacity>
                 <Text style={styles.joinCode}>Join using id: {this.params.id}</Text>
             </View>
