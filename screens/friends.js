@@ -57,7 +57,6 @@ class Friends extends Component{
                     {this.state.friends.map(friend =>
                     <TouchableOpacity style={styles.friendListedElementContainer}
                     onPress={() => {
-                        console.log(friend.requested)
                         this.props.navigation.navigate('Personal', {
                             user: friend.requested
                         });
@@ -67,7 +66,7 @@ class Friends extends Component{
                             source={require('../assets/Friends.png')}
                         />
                         <View syle={styles.friendInformationBox}>
-                            <Text style={styles.friendName}>{friend.requested}</Text>
+                            <Text style={styles.friendName}>{(friend.requested).split("@")[0]}</Text>
                             <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
                         </View>
                     </TouchableOpacity>)}
