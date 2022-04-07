@@ -15,7 +15,10 @@ class Friends extends Component{
             friends: [],
             otherFriends: []
         };
-        // this.getAllFriends();
+        
+        
+        // TODO: combine queries. 
+        // Get friends that added you
         this.subscriber = firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).where('accepted', '==', true).onSnapshot(docs =>{
             let friends = [];
             docs.forEach(doc => {
@@ -25,6 +28,7 @@ class Friends extends Component{
             console.log(friends);
         });
 
+        // Get friends you added
         this.subscriber2 = firebase.firestore().collection('friends').where('requested', '==', firebase.auth().currentUser.email).where('accepted', '==', true).onSnapshot(docs2 =>{
             let otherFriends = [];
             docs2.forEach(doc2 => {
