@@ -70,6 +70,24 @@ class Friends extends Component{
                             <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
                         </View>
                     </TouchableOpacity>)}
+
+                    {this.state.otherFriends.map(friend =>
+                    <TouchableOpacity style={styles.friendListedElementContainer}
+                    onPress={() => {
+                        this.props.navigation.navigate('Personal', {
+                            user: friend.requested
+                        });
+                    }}>
+                        <Image
+                            style={styles.tinyLogo}
+                            source={require('../assets/Friends.png')}
+                        />
+                        <View syle={styles.friendInformationBox}>
+                            <Text style={styles.friendName}>{(friend.requested).split("@")[0]}</Text>
+                            <Text style={styles.friendInfo}>No upcomming events in the next week.</Text>
+                        </View>
+                    </TouchableOpacity>)}
+
                     {/* {this.state.otherFriends.map(friend =>
                     <View style={styles.friendListedElementContainer}>
                         <Image

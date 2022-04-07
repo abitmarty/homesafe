@@ -56,6 +56,12 @@ class PersonalFriendpage extends Component{
                             })
                         });
 
+                        firebase.firestore().collection('friends').where('requested', '==', firebase.auth().currentUser.email).where('target', '==', this.params.user).onSnapshot(docs =>{
+                            docs.forEach(doc => {
+                                doc.ref.delete()
+                            })
+                        });
+
                         this.props.navigation.navigate('Friends');
                     }}
                     style={styles.button}
