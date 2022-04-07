@@ -14,24 +14,23 @@ class AddFriend extends Component{
         super(props);
         this.state = {
             email: "",
-            friends: {
-                name:""
-            }
+            friendRequests: []
         };
-        this.getFriends();
-        this.subscriber = firebase.firestore().collection('friends').doc('k9IoVfKM2gUbeblW6Zsi').onSnapshot(doc=>{
-            this.setState({
-                friends:{
-                    name: doc.data().requested
-                }
+        // this.getAllFriends();
+        this.subscriber = firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).onSnapshot(docs =>{
+            let friendRequests = [];
+            docs.forEach(doc => {
+                friendRequests.push(doc.data())
             })
+            this.setState({ friendRequests });
+            console.log(friendRequests);
         });
     }
 
-    getFriends = async () => {
+    getAllFriends = async () => {
         console.log('Calling firestore')
-        const friendsDocument = await firebase.firestore().collection('friends').doc('k9IoVfKM2gUbeblW6Zsi').get();
-        console.log(friendsDocument);
+        const friends = await firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).get();
+        console.log(friends);
         console.log('Done calling firestore')
     }
 
@@ -61,7 +60,26 @@ class AddFriend extends Component{
                 </TouchableOpacity>
             </View>
             <View style={styles.inputContainer}>
-                <Text>{this.state.friends.name}</Text>
+                <Text style={styles.title}>Friend requests:</Text>
+                {this.state.friendRequests.map(request => <View style={styles.requests}>
+                    <Text style={styles.requestedName}>{request.requested}</Text>
+                    <TouchableOpacity
+                        onPress={() => {
+                            
+                        }}
+                        style={styles.buttonSmall}
+                        >
+                            <Text style={styles.buttonText}>Accept</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                        onPress={() => {
+                            
+                        }}
+                        style={styles.buttonSmallNo}
+                        >
+                            <Text style={styles.buttonText}>x</Text>
+                        </TouchableOpacity>
+                    </View>)}
             </View>
         </View>
     );
@@ -97,10 +115,41 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         alignItems: 'center'
     },
+    buttonSmall: {
+        backgroundColor: '#5DB075',
+        width: '30%',
+        padding: 5,
+        borderRadius: 100,
+        alignItems: 'center'
+    },
+    buttonSmallNo: {
+        backgroundColor: '#B05D5D',
+        width: '10%',
+        marginLeft: '10%',
+        padding: 5,
+        borderRadius: 100,
+        alignItems: 'center'
+    },
     buttonText:{
         color: '#fff',
         fontWeight: "700"
     },
+    title:{
+        color: '#000',
+        fontSize: 16,
+        fontWeight: '700',
+        textAlign: 'left',
+        marginTop: 20
+    },
+    requests:{
+        alignItems: 'center',
+        width: '100%',
+        flexDirection: 'row',
+        marginTop: 10
+    },
+    requestedName: {
+        width: '50%'
+    }
 });
 
 export default AddFriend;
