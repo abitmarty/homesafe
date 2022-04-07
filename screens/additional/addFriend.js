@@ -17,7 +17,7 @@ class AddFriend extends Component{
             friendRequests: []
         };
         // this.getAllFriends();
-        this.subscriber = firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).onSnapshot(docs =>{
+        this.subscriber = firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).where('accepted', '==', false).onSnapshot(docs =>{
             let friendRequests = [];
             docs.forEach(doc => {
                 friendRequests.push(doc.data())
@@ -25,13 +25,6 @@ class AddFriend extends Component{
             this.setState({ friendRequests });
             console.log(friendRequests);
         });
-    }
-
-    getAllFriends = async () => {
-        console.log('Calling firestore')
-        const friends = await firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).get();
-        console.log(friends);
-        console.log('Done calling firestore')
     }
 
     render() {
@@ -53,6 +46,11 @@ class AddFriend extends Component{
                 <TouchableOpacity
                 onPress={() => {
                     console.log("Email: ", this.state.email);
+                    firebase.firestore().collection('friends').add({
+                        accepted: false,
+                        requested: firebase.auth().currentUser.email,
+                        target: this.state.email
+                    })
                 }}
                 style={styles.button}
                 >
@@ -65,7 +63,13 @@ class AddFriend extends Component{
                     <Text style={styles.requestedName}>{request.requested}</Text>
                     <TouchableOpacity
                         onPress={() => {
-                            
+                            firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).where('requested', '==', request.requested).onSnapshot(docs =>{
+                                docs.forEach(doc => {
+                                    doc.ref.update({
+                                        accepted: true
+                                    })
+                                })
+                            });
                         }}
                         style={styles.buttonSmall}
                         >
@@ -73,7 +77,11 @@ class AddFriend extends Component{
                         </TouchableOpacity>
                         <TouchableOpacity
                         onPress={() => {
-                            
+                            firebase.firestore().collection('friends').where('target', '==', firebase.auth().currentUser.email).where('requested', '==', request.requested).onSnapshot(docs =>{
+                                docs.forEach(doc => {
+                                    doc.ref.delete()
+                                })
+                            });
                         }}
                         style={styles.buttonSmallNo}
                         >
