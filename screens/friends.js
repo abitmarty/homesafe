@@ -51,7 +51,7 @@ class Friends extends Component{
                     </TouchableOpacity>
                 </View>
                 <View style={styles.friendContainer}>
-                    <Text style={styles.title}>Friend list:</Text>
+                    <Text style={styles.title}>Friend list</Text>
                     {this.state.friends.map(friend =>
                     <TouchableOpacity style={styles.friendListedElementContainer}
                     onPress={() => {
@@ -86,6 +86,13 @@ class Friends extends Component{
                         </View>
                     </TouchableOpacity>)}
                 </View>
+                <TouchableOpacity style={styles.friendListedElementContainer}
+                    onPress={() => {
+                        auth.signOut();
+                        
+                    }}>
+                        <Text style={styles.friendName}>Sign out</Text>
+                    </TouchableOpacity>
             </View>
         );
     }

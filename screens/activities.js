@@ -43,7 +43,7 @@ class Activities extends Component{
                     </TouchableOpacity>
                     <TouchableOpacity
                     onPress={() => {
-                        this.props.navigation.navigate('AddFriend');
+                        this.props.navigation.navigate('JoinEvent');
                     }}
                     style={styles.button}
                     >
